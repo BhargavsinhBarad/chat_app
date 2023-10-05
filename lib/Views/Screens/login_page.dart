@@ -1,3 +1,4 @@
+import 'package:chat_app/Views/Screens/Home_page.dart';
 import 'package:chat_app/Views/Screens/sinup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,10 +32,6 @@ class _login_pageState extends State<login_page> {
               ),
             ),
             decoration: BoxDecoration(
-              // borderRadius: BorderRadius.only(
-              //   bottomLeft: Radius.circular(200),
-              //   bottomRight: Radius.circular(200),
-              // ),
               color: Colors.blue,
             ),
           ),
@@ -99,20 +96,25 @@ class _login_pageState extends State<login_page> {
                           ),
                         ),
                       ),
-                      Container(
-                        margin: EdgeInsets.only(left: 25, right: 25, top: 25),
-                        height: Get.height * 0.08,
-                        width: Get.width,
-                        decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "LOGIN",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 20,
+                      GestureDetector(
+                        onTap: () {
+                          Get.to(home_page());
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(left: 25, right: 25, top: 25),
+                          height: Get.height * 0.08,
+                          width: Get.width,
+                          decoration: BoxDecoration(
+                            border: Border.all(),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "LOGIN",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 20,
+                              ),
                             ),
                           ),
                         ),
