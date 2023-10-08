@@ -1,4 +1,5 @@
 import 'package:chat_app/Views/Screens/login_page.dart';
+import 'package:chat_app/Views/helper/AuthHelper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,6 +13,7 @@ class sinup_page extends StatefulWidget {
 class _sinup_pageState extends State<sinup_page> {
   @override
   Widget build(BuildContext context) {
+    GlobalKey<FormState> formkey = GlobalKey<FormState>();
     String? Email;
     String? Password;
     return Scaffold(
@@ -34,106 +36,131 @@ class _sinup_pageState extends State<sinup_page> {
               color: Colors.blue,
             ),
           ),
-          Column(
-            children: [
-              SizedBox(
-                height: Get.height * 0.35,
-              ),
-              Center(
-                child: Container(
-                  height: Get.height * 0.55,
-                  width: Get.width * 0.9,
-                  decoration: BoxDecoration(
-                    color: Colors.lightBlueAccent,
-                    borderRadius: BorderRadius.circular(20),
+          Form(
+            key: formkey,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: Get.height * 0.35,
                   ),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: Get.height * 0.01,
+                  Center(
+                    child: Container(
+                      height: Get.height * 0.55,
+                      width: Get.width * 0.9,
+                      decoration: BoxDecoration(
+                        color: Colors.lightBlueAccent,
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                      Text(
-                        "SINGUP",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 25, right: 25),
-                        child: TextFormField(
-                          onSaved: (val) {
-                            Email = val;
-                          },
-                          decoration: InputDecoration(
-                            label: Text("Email"),
-                            hintText: "Enter your Email...",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(35),
-                            ),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: Get.height * 0.01,
                           ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 25, right: 25),
-                        child: TextFormField(
-                          onSaved: (val) {
-                            Password = val;
-                          },
-                          decoration: InputDecoration(
-                            label: Text("Password"),
-                            hintText: "Enter your Password...",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(35),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 25, right: 25, top: 25),
-                        height: Get.height * 0.08,
-                        width: Get.width,
-                        decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: Center(
-                          child: Text(
+                          Text(
                             "SINGUP",
                             style: TextStyle(
-                              fontWeight: FontWeight.w500,
                               fontSize: 20,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 25,
-                        ),
-                        child: Align(
-                          alignment: FractionalOffset.topLeft,
-                          child: TextButton(
-                            onPressed: () {
-                              Get.to(login_page());
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 25, right: 25),
+                            child: TextFormField(
+                              validator: (val) {
+                                if (val!.isEmpty) {
+                                  return "Enter Email";
+                                }
+                              },
+                              onSaved: (val) {
+                                Email = val;
+                              },
+                              decoration: InputDecoration(
+                                label: Text("Email"),
+                                hintText: "Enter your Email...",
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(35),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 25, right: 25),
+                            child: TextFormField(
+                              validator: (val) {
+                                if (val!.isEmpty) {
+                                  return "Enter password";
+                                }
+                              },
+                              onSaved: (val) {
+                                Password = val;
+                              },
+                              decoration: InputDecoration(
+                                label: Text("Password"),
+                                hintText: "Enter your Password...",
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(35),
+                                ),
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              if (formkey.currentState!.validate()) {
+                                formkey.currentState!.save();
+                                AuthHelper.authHelper
+                                    .signup(email: Email!, password: Password!);
+                              }
                             },
-                            child: Text(
-                              "Login Account...",
+                            child: Container(
+                              margin:
+                                  EdgeInsets.only(left: 25, right: 25, top: 25),
+                              height: Get.height * 0.08,
+                              width: Get.width,
+                              decoration: BoxDecoration(
+                                border: Border.all(),
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "SINGUP",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      )
-                    ],
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 25,
+                            ),
+                            child: Align(
+                              alignment: FractionalOffset.topLeft,
+                              child: TextButton(
+                                onPressed: () {
+                                  Get.to(login_page());
+                                },
+                                child: Text(
+                                  "Login Account...",
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
         ],
       ),
