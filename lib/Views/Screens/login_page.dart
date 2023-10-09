@@ -113,12 +113,17 @@ class _login_pageState extends State<login_page> {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () {
+                            onTap: () async {
                               if (formkey.currentState!.validate()) {
                                 formkey.currentState!.save();
-                                AuthHelper.authHelper
+                                Map<String, dynamic> res = await AuthHelper
+                                    .authHelper
                                     .login(email: Email!, password: Password!);
+                                if (res['user'] != null) {
+                                  Get.to(home_page());
+                                }
                               }
+                              Get.to(home_page());
                             },
                             child: Container(
                               margin:
@@ -156,14 +161,33 @@ class _login_pageState extends State<login_page> {
                               ),
                             ),
                           ),
-                          ElevatedButton(
-                            onPressed: () async {
-                              Map<String, dynamic> res = await AuthHelper
-                                  .authHelper
-                                  .anonymouslylogin();
-                            },
-                            child: Text("Login with user"),
-                          )
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () async {
+                                  Map<String, dynamic> res = await AuthHelper
+                                      .authHelper
+                                      .anonymouslylogin();
+                                  if (res['user'] != null) {
+                                    Get.to(home_page());
+                                  }
+                                },
+                                child: Text("Login with user"),
+                              ),
+                              ElevatedButton(
+                                onPressed: () async {
+                                  Map<String, dynamic> res = await AuthHelper
+                                      .authHelper
+                                      .singwithgoogle();
+                                  if (res['user'] != null) {
+                                    Get.to(home_page());
+                                  }
+                                },
+                                child: Text("Login with Google"),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
