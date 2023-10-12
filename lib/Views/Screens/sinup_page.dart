@@ -1,5 +1,6 @@
 import 'package:chat_app/Views/Screens/login_page.dart';
 import 'package:chat_app/Views/helper/AuthHelper.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -11,11 +12,12 @@ class sinup_page extends StatefulWidget {
 }
 
 class _sinup_pageState extends State<sinup_page> {
+  GlobalKey<FormState> formkey = GlobalKey<FormState>();
+  String? Email;
+  String? Password;
+  bool pas = false;
   @override
   Widget build(BuildContext context) {
-    GlobalKey<FormState> formkey = GlobalKey<FormState>();
-    String? Email;
-    String? Password;
     return Scaffold(
       body: Stack(
         children: [
@@ -93,6 +95,7 @@ class _sinup_pageState extends State<sinup_page> {
                           Padding(
                             padding: const EdgeInsets.only(left: 25, right: 25),
                             child: TextFormField(
+                              obscureText: (pas == false) ? true : false,
                               validator: (val) {
                                 if (val!.isEmpty) {
                                   return "Enter password";
@@ -102,6 +105,16 @@ class _sinup_pageState extends State<sinup_page> {
                                 Password = val;
                               },
                               decoration: InputDecoration(
+                                suffixIcon: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      pas = !pas;
+                                    });
+                                  },
+                                  icon: Icon((pas == false)
+                                      ? CupertinoIcons.eye
+                                      : CupertinoIcons.eye_slash),
+                                ),
                                 label: Text("Password"),
                                 hintText: "Enter your Password...",
                                 border: OutlineInputBorder(

@@ -1,5 +1,6 @@
 import 'package:chat_app/Views/Screens/Home_page.dart';
 import 'package:chat_app/Views/Screens/sinup_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,6 +17,7 @@ class _login_pageState extends State<login_page> {
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
   String? Email;
   String? Password;
+  bool pas = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,6 +97,7 @@ class _login_pageState extends State<login_page> {
                           Padding(
                             padding: const EdgeInsets.only(left: 25, right: 25),
                             child: TextFormField(
+                              obscureText: (pas == false) ? true : false,
                               onSaved: (val) {
                                 Password = val;
                               },
@@ -104,6 +107,16 @@ class _login_pageState extends State<login_page> {
                                 }
                               },
                               decoration: InputDecoration(
+                                suffixIcon: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      pas = !pas;
+                                    });
+                                  },
+                                  icon: Icon((pas == true)
+                                      ? CupertinoIcons.eye_slash
+                                      : CupertinoIcons.eye),
+                                ),
                                 label: Text("Password"),
                                 hintText: "Enter your Password...",
                                 border: OutlineInputBorder(

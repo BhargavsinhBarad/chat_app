@@ -15,12 +15,7 @@ class AuthHelper {
 
     try {
       UserCredential userCredential = await auth.signInAnonymously();
-      Firestorehelper.firestorehelper.adduser(
-        data: {
-          "email": "user",
-          "uid": userCredential.user?.uid,
-        },
-      );
+
       res['user'] = userCredential.user;
     } on FirebaseAuthException catch (e) {
       res['error'] = e.code;
@@ -67,7 +62,6 @@ class AuthHelper {
 
     try {
       final GoogleSignInAccount? googluser = await GoogleSignIn().signIn();
-
       final GoogleSignInAuthentication? googlauth =
           await googluser?.authentication;
 

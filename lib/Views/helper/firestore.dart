@@ -7,8 +7,8 @@ class Firestorehelper {
   static Firestorehelper firestorehelper = Firestorehelper._();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  Future<void> adduser({required Map<String, dynamic> data}) async {
-    await firestore
+  adduser({required Map<String, dynamic> data}) {
+    firestore
         .collection("users")
         .doc("${AuthHelper.authHelper.auth.currentUser?.uid}")
         .set(data);
