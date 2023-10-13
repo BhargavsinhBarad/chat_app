@@ -1,4 +1,7 @@
+import 'package:chat_app/Views/Screens/chat_page.dart';
 import 'package:chat_app/Views/helper/AuthHelper.dart';
+import 'package:chat_app/Views/helper/firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -27,6 +30,46 @@ class _home_pageState extends State<home_page> {
             icon: Icon(Icons.logout),
           ),
         ],
+      ),
+      body: StreamBuilder(
+        stream: Firestorehelper.firestorehelper.fetchuser(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(child: Text("${snapshot.error}"));
+          } else if (snapshot.hasData) {
+            QuerySnapshot<Map<String, dynamic>>? data = snapshot.data;
+
+            List<QueryDocumentSnapshot<Map<String, dynamic>>>? allusers =
+                data?.docs;
+            return ListView.builder(
+                itemCount: allusers!.length,
+                itemBuilder: (context, i) {
+                  return GestureDetector(
+                    onTap: () {
+                      Get.to(chat_page(), arguments: [
+                        "${allusers[i]['email']}",
+                        "${allusers[i]['uid']}"
+                      ]);
+                    },
+                    child: Card(
+                      child: ListTile(
+                        title: Text(
+                            "${allusers[i]['email'].toString().split("@")[0]}"),
+                        subtitle: Text("${allusers[i]['email']}"),
+                        trailing: IconButton(
+                          onPressed: () {
+                            Firestorehelper.firestorehelper
+                                .deleteuser(uid: allusers[i]['uid']);
+                          },
+                          icon: Icon(Icons.remove_circle_sharp),
+                        ),
+                      ),
+                    ),
+                  );
+                });
+          }
+          return Center(child: CircularProgressIndicator());
+        },
       ),
     );
   }

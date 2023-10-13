@@ -134,9 +134,10 @@ class _login_pageState extends State<login_page> {
                                     .login(email: Email!, password: Password!);
                                 if (res['user'] != null) {
                                   Get.to(home_page());
+                                } else {
+                                  Get.snackbar("flutter", "failed");
                                 }
                               }
-                              Get.to(home_page());
                             },
                             child: Container(
                               margin:

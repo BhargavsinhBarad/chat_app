@@ -129,6 +129,7 @@ class _sinup_pageState extends State<sinup_page> {
                                 formkey.currentState!.save();
                                 AuthHelper.authHelper
                                     .signup(email: Email!, password: Password!);
+                                Get.snackbar("chat app", "Successfully Signup");
                               }
                             },
                             child: Container(
