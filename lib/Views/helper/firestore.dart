@@ -7,6 +7,11 @@ class Firestorehelper {
   static Firestorehelper firestorehelper = Firestorehelper._();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+  static String fuser1 = "";
+  static String fuser2 = "";
+  bool croom = false;
+  static Stream? allmessages;
+
   adduser({required Map<String, dynamic> data}) {
     firestore
         .collection("users")
@@ -82,6 +87,50 @@ class Firestorehelper {
           "msg": msg
         },
       );
+    }
+  }
+
+  fetchmessages({required String uid1, required String uid2}) async {
+    String user1 = uid1;
+    String user2 = uid2;
+
+    QuerySnapshot<Map<String, dynamic>> roomdoc =
+        await firestore.collection("chat").get();
+
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> allDoc =
+        await roomdoc.docs;
+
+    for (QueryDocumentSnapshot<Map<String, dynamic>> e in allDoc) {
+      fuser1 = e.id.split("_")[0];
+      fuser2 = e.id.split("_")[1];
+
+      if ((fuser1 == user1 || fuser1 == user2) &&
+          (fuser2 == user1 || fuser2 == user2)) {
+        croom = true;
+      }
+    }
+  }
+
+  display({required String uid1, required String uid2}) async {
+    fetchmessages(uid1: uid1, uid2: uid2);
+    if (croom == false) {
+      await firestore
+          .collection("chat")
+          .doc("${uid1}_${uid2}")
+          .set({"sender": uid1, "receive": uid2});
+      return firestore
+          .collection("chat")
+          .doc("${uid1}_${uid2}")
+          .collection("massage")
+          .orderBy("timestap", descending: true)
+          .snapshots();
+    } else {
+      return firestore
+          .collection("chat")
+          .doc("${fuser1}_${fuser2}")
+          .collection("massage")
+          .orderBy("timestap", descending: true)
+          .snapshots();
     }
   }
 }

@@ -42,31 +42,36 @@ class _home_pageState extends State<home_page> {
             List<QueryDocumentSnapshot<Map<String, dynamic>>>? allusers =
                 data?.docs;
             return ListView.builder(
-                itemCount: allusers!.length,
-                itemBuilder: (context, i) {
-                  return GestureDetector(
-                    onTap: () {
-                      Get.to(chat_page(), arguments: [
-                        "${allusers[i]['email']}",
-                        "${allusers[i]['uid']}"
-                      ]);
-                    },
-                    child: Card(
-                      child: ListTile(
-                        title: Text(
-                            "${allusers[i]['email'].toString().split("@")[0]}"),
-                        subtitle: Text("${allusers[i]['email']}"),
-                        trailing: IconButton(
-                          onPressed: () {
-                            Firestorehelper.firestorehelper
-                                .deleteuser(uid: allusers[i]['uid']);
-                          },
-                          icon: Icon(Icons.remove_circle_sharp),
-                        ),
+              itemCount: allusers!.length,
+              itemBuilder: (context, i) {
+                return GestureDetector(
+                  onTap: () async {
+                    Get.to(chat_page(), arguments: <String>[
+                      "${allusers[i]['email']}",
+                      "${allusers[i]['uid']}"
+                    ]);
+                    Firestorehelper.allmessages =
+                        await Firestorehelper.firestorehelper.display(
+                            uid1: AuthHelper.authHelper.auth.currentUser!.uid,
+                            uid2: allusers[i]['uid']);
+                  },
+                  child: Card(
+                    child: ListTile(
+                      title: Text(
+                          "${allusers[i]['email'].toString().split("@")[0]}"),
+                      subtitle: Text("${allusers[i]['email']}"),
+                      trailing: IconButton(
+                        onPressed: () {
+                          Firestorehelper.firestorehelper
+                              .deleteuser(uid: allusers[i]['uid']);
+                        },
+                        icon: Icon(Icons.remove_circle_sharp),
                       ),
                     ),
-                  );
-                });
+                  ),
+                );
+              },
+            );
           }
           return Center(child: CircularProgressIndicator());
         },
