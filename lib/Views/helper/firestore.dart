@@ -90,7 +90,28 @@ class Firestorehelper {
     }
   }
 
-  fetchmessages({required String uid1, required String uid2}) async {
+  // fetchmessages({required String uid1, required String uid2}) async {
+  //   String user1 = uid1;
+  //   String user2 = uid2;
+  //
+  //   QuerySnapshot<Map<String, dynamic>> roomdoc =
+  //       await firestore.collection("chat").get();
+  //
+  //   List<QueryDocumentSnapshot<Map<String, dynamic>>> allDoc =
+  //       await roomdoc.docs;
+  //
+  //   for (QueryDocumentSnapshot<Map<String, dynamic>> e in allDoc) {
+  //     fuser1 = e.id.split("_")[0];
+  //     fuser2 = e.id.split("_")[1];
+  //
+  //     if ((fuser1 == user1 || fuser1 == user2) &&
+  //         (fuser2 == user1 || fuser2 == user2)) {
+  //       croom = true;
+  //     }
+  //   }
+  // }
+
+  display({required String uid1, required String uid2}) async {
     String user1 = uid1;
     String user2 = uid2;
 
@@ -109,10 +130,6 @@ class Firestorehelper {
         croom = true;
       }
     }
-  }
-
-  display({required String uid1, required String uid2}) async {
-    fetchmessages(uid1: uid1, uid2: uid2);
     if (croom == false) {
       await firestore
           .collection("chat")

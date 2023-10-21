@@ -17,10 +17,30 @@ class _home_pageState extends State<home_page> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: (AuthHelper.authHelper.auth.currentUser?.email == null)
-            ? Text("user")
-            : Text(
-                "${AuthHelper.authHelper.auth.currentUser?.email?.split("@")[0]}"),
+        title: Row(
+          children: [
+            (AuthHelper.authHelper.auth.currentUser?.email == null)
+                ? const CircleAvatar(
+                    radius: 18,
+                    foregroundImage: AssetImage("lib/Assets/image/1.png"),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    foregroundImage: NetworkImage(
+                      "${AuthHelper.authHelper.auth.currentUser!.photoURL}",
+                    ),
+                  ),
+            const SizedBox(
+              width: 10,
+            ),
+            (AuthHelper.authHelper.auth.currentUser?.email == null)
+                ? const Text("user")
+                : Text(
+                    "${AuthHelper.authHelper.auth.currentUser?.email?.split("@")[0]}",
+                    style: TextStyle(fontSize: 18),
+                  ),
+          ],
+        ),
         actions: [
           IconButton(
             onPressed: () {
@@ -48,7 +68,8 @@ class _home_pageState extends State<home_page> {
                   onTap: () async {
                     Get.to(chat_page(), arguments: <String>[
                       "${allusers[i]['email']}",
-                      "${allusers[i]['uid']}"
+                      "${allusers[i]['uid']}",
+                      "${allusers[i]['image']}"
                     ]);
                     Firestorehelper.allmessages =
                         await Firestorehelper.firestorehelper.display(
@@ -65,15 +86,26 @@ class _home_pageState extends State<home_page> {
                           Firestorehelper.firestorehelper
                               .deleteuser(uid: allusers[i]['uid']);
                         },
-                        icon: Icon(Icons.remove_circle_sharp),
+                        icon: const Icon(Icons.remove_circle_sharp),
                       ),
+                      leading: (allusers[i]['image'] == "null")
+                          ? const CircleAvatar(
+                              foregroundImage: AssetImage(
+                                "lib/Assets/image/1.png",
+                              ),
+                            )
+                          : CircleAvatar(
+                              foregroundImage: NetworkImage(
+                                "${allusers[i]['image']}",
+                              ),
+                            ),
                     ),
                   ),
                 );
               },
             );
           }
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         },
       ),
     );

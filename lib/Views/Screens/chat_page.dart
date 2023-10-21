@@ -21,8 +21,27 @@ class _chat_pageState extends State<chat_page> {
         ModalRoute.of(context)!.settings.arguments as List<String>;
     return Scaffold(
       appBar: AppBar(
-        title: Text("chat app"),
-        centerTitle: true,
+        title: Row(
+          children: [
+            (data[2] == "null")
+                ? const CircleAvatar(
+                    radius: 15,
+                    foregroundImage: AssetImage(
+                      "lib/Assets/image/1.png",
+                    ),
+                  )
+                : CircleAvatar(
+                    radius: 15,
+                    foregroundImage: NetworkImage(
+                      "${data[2]}",
+                    ),
+                  ),
+            SizedBox(
+              width: 8,
+            ),
+            Text("${data[0].toString().split("@")[0]}"),
+          ],
+        ),
       ),
       body: Column(
         children: [
@@ -40,16 +59,16 @@ class _chat_pageState extends State<chat_page> {
                     itemCount: mas.length,
                     itemBuilder: (ctx, i) {
                       return Row(
-                        mainAxisAlignment: (mas[i]['sentby'] ==
-                                AuthHelper.authHelper.auth.currentUser!.uid)
-                            ? MainAxisAlignment.end
-                            : MainAxisAlignment.start,
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(5),
                             child: Chip(label: Text("${mas[i]['msg']}")),
                           )
                         ],
+                        mainAxisAlignment: (mas[i]['sentby'] ==
+                                AuthHelper.authHelper.auth.currentUser!.uid)
+                            ? MainAxisAlignment.end
+                            : MainAxisAlignment.start,
                       );
                     });
               }

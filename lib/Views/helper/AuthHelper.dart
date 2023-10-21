@@ -48,6 +48,7 @@ class AuthHelper {
         data: {
           "email": userCredential.user?.email,
           "uid": userCredential.user?.uid,
+          "image": "null",
         },
       );
       res['user'] = userCredential.user;
@@ -75,6 +76,7 @@ class AuthHelper {
         data: {
           "email": userCredential.user?.email,
           "uid": userCredential.user?.uid,
+          "image": userCredential.user?.photoURL,
         },
       );
       res['user'] = userCredential.user;
