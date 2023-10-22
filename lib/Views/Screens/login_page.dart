@@ -1,5 +1,6 @@
 import 'package:chat_app/Views/Screens/Home_page.dart';
 import 'package:chat_app/Views/Screens/sinup_page.dart';
+import 'package:chat_app/Views/Screens/splashscreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -133,7 +134,7 @@ class _login_pageState extends State<login_page> {
                                     .authHelper
                                     .login(email: Email!, password: Password!);
                                 if (res['user'] != null) {
-                                  Get.to(home_page());
+                                  Get.to(splash());
                                 } else {
                                   Get.snackbar("flutter", "failed");
                                 }
@@ -167,7 +168,7 @@ class _login_pageState extends State<login_page> {
                               alignment: FractionalOffset.topLeft,
                               child: TextButton(
                                 onPressed: () {
-                                  Get.to(sinup_page());
+                                  Get.to(splash());
                                 },
                                 child: Text(
                                   "Create Account..",
@@ -184,7 +185,7 @@ class _login_pageState extends State<login_page> {
                                       .authHelper
                                       .anonymouslylogin();
                                   if (res['user'] != null) {
-                                    Get.to(home_page());
+                                    Get.to(splash());
                                   }
                                 },
                                 child: Text("Login with user"),
@@ -195,7 +196,7 @@ class _login_pageState extends State<login_page> {
                                       .authHelper
                                       .singwithgoogle();
                                   if (res['user'] != null) {
-                                    Get.to(home_page());
+                                    Get.to(splash());
                                   }
                                 },
                                 child: Text("Login with Google"),

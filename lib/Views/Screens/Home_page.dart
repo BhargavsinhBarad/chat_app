@@ -1,9 +1,13 @@
 import 'package:chat_app/Views/Screens/chat_page.dart';
+import 'package:chat_app/Views/Screens/login_page.dart';
 import 'package:chat_app/Views/helper/AuthHelper.dart';
 import 'package:chat_app/Views/helper/firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+
+import '../../Provider/themeprovider.dart';
 
 class home_page extends StatefulWidget {
   const home_page({super.key});
@@ -16,40 +20,109 @@ class _home_pageState extends State<home_page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
+      drawer: Drawer(
+        child: Column(
           children: [
+            SizedBox(
+              height: 40,
+            ),
             (AuthHelper.authHelper.auth.currentUser?.email == null)
                 ? const CircleAvatar(
-                    radius: 18,
+                    radius: 80,
                     foregroundImage: AssetImage("lib/Assets/image/1.png"),
                   )
                 : CircleAvatar(
-                    radius: 18,
+                    radius: 80,
                     foregroundImage: NetworkImage(
                       "${AuthHelper.authHelper.auth.currentUser!.photoURL}",
                     ),
                   ),
-            const SizedBox(
-              width: 10,
-            ),
+            // Divider(),
             (AuthHelper.authHelper.auth.currentUser?.email == null)
-                ? const Text("user")
-                : Text(
-                    "${AuthHelper.authHelper.auth.currentUser?.email?.split("@")[0]}",
+                ? Align(
+                    alignment: Alignment.topLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: const Text("Name:  user"),
+                    ))
+                : Align(
+                    alignment: Alignment.topLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "Name:  ${AuthHelper.authHelper.auth.currentUser?.email?.split("@")[0]}",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
+                  ),
+            (AuthHelper.authHelper.auth.currentUser?.email == null)
+                ? Align(
+                    alignment: Alignment.topLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: const Text("Email:  user"),
+                    ))
+                : Align(
+                    alignment: Alignment.topLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "Email: ${AuthHelper.authHelper.auth.currentUser?.email}",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
+                  ),
+            Divider(),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "LightTheme",
                     style: TextStyle(fontSize: 18),
                   ),
+                  Switch(
+                    value: Provider.of<themeprovider>(context, listen: true)
+                        .theme
+                        .isdark,
+                    onChanged: (val) {
+                      Provider.of<themeprovider>(context, listen: false)
+                          .changetheme(val);
+                    },
+                  ),
+                ],
+              ),
+            ),
+            Divider(),
+            GestureDetector(
+              onTap: () {
+                AuthHelper.authHelper.logout();
+                Get.to(login_page());
+              },
+              child: Container(
+                padding: EdgeInsets.all(9),
+                width: Get.width,
+                child: Row(
+                  children: [
+                    Icon(Icons.logout),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Text(
+                      "logout",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Divider(),
           ],
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              AuthHelper.authHelper.logout();
-              Get.back();
-            },
-            icon: Icon(Icons.logout),
-          ),
-        ],
+      ),
+      appBar: AppBar(
+        title: Text("ChatApp"),
       ),
       body: StreamBuilder(
         stream: Firestorehelper.firestorehelper.fetchuser(),

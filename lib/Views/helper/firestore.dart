@@ -7,9 +7,6 @@ class Firestorehelper {
   static Firestorehelper firestorehelper = Firestorehelper._();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  static String fuser1 = "";
-  static String fuser2 = "";
-  bool croom = false;
   static Stream? allmessages;
 
   adduser({required Map<String, dynamic> data}) {
@@ -112,6 +109,9 @@ class Firestorehelper {
   // }
 
   display({required String uid1, required String uid2}) async {
+    String fuser1 = "";
+    String fuser2 = "";
+    bool croom = false;
     String user1 = uid1;
     String user2 = uid2;
 

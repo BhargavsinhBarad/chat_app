@@ -40,6 +40,9 @@ dependencies:
   firebase_auth:
   google_sign_in:
   cloud_firestore:
+  provider:
+  introduction_screen:
+  shared_preferences:
 
 dev_dependencies:
   flutter_test:
