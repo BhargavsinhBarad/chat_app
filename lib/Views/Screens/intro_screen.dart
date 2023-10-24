@@ -38,12 +38,11 @@ class _intro_pageState extends State<intro_page> {
             body: "You can share chat with your match.",
             image: Center(
               child: Container(
-                height: double.infinity,
-                width: double.infinity,
+                height: 250,
+                width: 250,
                 decoration: BoxDecoration(
-                    shape: BoxShape.circle,
                     image: DecorationImage(
-                        image: AssetImage("lib/Assets/image/5.gif"),
+                        image: AssetImage("lib/Assets/image/pngwing.com.png"),
                         fit: BoxFit.cover)),
               ),
             ),

@@ -149,6 +149,7 @@ class _home_pageState extends State<home_page> {
                             uid1: AuthHelper.authHelper.auth.currentUser!.uid,
                             uid2: allusers[i]['uid']);
                   },
+
                   child: Card(
                     child: ListTile(
                       title: Text(

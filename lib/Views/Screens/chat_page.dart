@@ -43,9 +43,18 @@ class _chat_pageState extends State<chat_page> {
             SizedBox(
               width: 8,
             ),
-            Text("${data[0].toString().split("@")[0]}"),
+            Text(
+              "${data[0].toString().split("@")[0]}",
+              style: TextStyle(fontSize: 15),
+            ),
           ],
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Icon(Icons.call),
+          ),
+        ],
       ),
       body: Stack(
         children: [

@@ -15,7 +15,7 @@ class _splashState extends State<splash> {
   @override
   Widget build(BuildContext context) {
     Timer(
-      Duration(seconds: 8),
+      Duration(seconds: 4),
       () {
         Get.to(home_page());
       },
